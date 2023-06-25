@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circles of Fifth</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="tone.js"></script>
+    <!-- <script src="tone-ui.js"></script>
+    <script src="components.js"></script> -->
+</head>
+<script>
+    //create a synth and connect it to the main output (your speakers)
+    const synth = new Tone.PolySynth().toDestination();
+
+    //Initialize note names
+    var freq = new Tone.Frequency("C4");
+    console.log(freq);
+    console.log(freq.toMidi());
+    st = Math.pow(2, 1/12);
+    
+
+</script>
+<body>
+    <div>
+      <h1>Circle of Blitz</h1>
+      <div id="options">
+      <label for="startingNote">Choose starting note:</label>  
+      <select name="startingNote" id="startingNote">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C" selected>C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+        <option value="G">G</option>
+      </select>
+      <br>
+      <label for="minMaj">Major or Minor:</label>  
+      <select name="minMaj" id="minMaj">
+        <option value="major">Major</option>
+        <option value="minor">Minor</option>
+      </select>
+      <br>
+      <label for="noteOrFreq">Display:</label>  
+      <select name="noteOrFreq" id="noteOrFreq">
+        <option value="note">Notes</option>
+        <option value="freq">Frequency</option>
+      </select>
+    </div>
+      <div class='circle-container'>
+        <!-- C, G, D, A, E, B (=C♭), F♯ (=G♭), C♯ (=D♭), A♭, E♭, B♭, F -->
+        <button class='deg270' onclick="synth.triggerAttackRelease(['C4', 'E4', 'G4'], '8n');">C</button>
+        <button class='deg300' onclick="synth.triggerAttackRelease(['G4', 'A4', 'D5'], '8n');">G</button>
+        <button class='deg330' onclick="synth.triggerAttackRelease(['D4', 'F4', 'A4'], '8n');">D</button>
+        <button class='deg0'>A</button>
+        <button class='deg30'>E</button>
+        <button class='deg60'>B</button>
+        <button class='deg90'>F#</button>
+        <button class='deg120'>C#</button>
+        <button class='deg150'>A♭</button>
+        <button class='deg180'>E♭</button>
+        <button class='deg210'>B♭</button>
+        <button class='deg240'>F</button>
+    </div>
+    <script>
+
+var noteButtons = document.querySelectorAll('button');
+        for (let i=0; i< noteButtons.length; i++) {
+  console.log(noteButtons[i].innerHTML)
+	noteButtons[i].onclick= function (){
+        synth.triggerAttackRelease([freq.transpose(5*i%12), freq.transpose(5*i%12+ 4), freq.transpose(5*i%12 + 8)], '8n'); 
+        console.log(freq.transpose(i%12));
+    }
+}
+    </script>
+    <!-- <div id="content"></div>
+    <script type="text/javascript">
+		const synth = new Tone.PolySynth(Tone.Synth, {
+			oscillator: {
+				partials: [0, 2, 3, 4],
+			}
+		}).toDestination();
+
+		piano({
+			parent: document.querySelector("#content"),
+			polyphonic: true,
+			noteon: note => synth.triggerAttack(note.name),
+			noteoff: note => synth.triggerRelease(note.name)
+		});
+		
+		ui({
+			tone: synth,
+			parent: document.querySelector("#content"),
+		});
+	</script> -->
+</body>
+</html>

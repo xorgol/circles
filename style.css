@@ -1,0 +1,63 @@
+h1, p {
+    font-family: Lato;
+  }
+  
+  h1 {
+    text-align: center;
+    font-family: 'San Francisco','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .place_list {
+    position: absolute;
+    z-index: 1;
+    padding: 20px;
+    box-shadow: 0px 8px 10px 0px #0000002b;
+  }
+  
+  .circle-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    padding: 20px;
+    /*2.8em = 2em*1.4 (2em = half the width of a link with img, 1.4 = sqrt(2))*/
+    /* border: dashed 1px;
+    border-radius: 50%; */
+    margin: 60px auto;
+  }
+  .circle-container button {
+    display: block;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    width: 50px; 
+    height: 50px;
+    margin: -10px;
+  }
+  .circle-container button { display: block; width: 3em; height: 3em; }
+  .deg0 { transform: translate(200px); } /* 12em = half the width of the wrapper */
+  .deg30 { transform: rotate(30deg) translate(200px) rotate(-30deg); }
+  .deg45 { transform: rotate(45deg) translate(200px) rotate(-45deg); }
+  .deg60 { transform: rotate(60deg) translate(200px) rotate(-60deg); }
+  .deg90 { transform: rotate(90deg) translate(200px) rotate(-90deg); }
+  .deg120 { transform: rotate(120deg) translate(200px) rotate(-120deg); }
+  .deg135 { transform: rotate(135deg) translate(200px) rotate(-135deg); }
+  .deg150 { transform: rotate(150deg) translate(200px) rotate(-150deg); }
+  .deg180 { transform: translate(-200px); }
+  .deg210 { transform: rotate(210deg) translate(200px) rotate(-210deg); }
+  .deg225 { transform: rotate(225deg) translate(200px) rotate(-225deg); }
+  .deg240 { transform: rotate(240deg) translate(200px) rotate(-240deg); }
+  .deg270 { transform: rotate(270deg) translate(200px) rotate(90deg); }
+  .deg300 { transform: rotate(300deg) translate(200px) rotate(-300deg); }
+  .deg315 { transform: rotate(315deg) translate(200px) rotate(-315deg); }
+  .deg330 { transform: rotate(330deg) translate(200px) rotate(-330deg); }
+  
+  #options {
+    width: 90vw;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
