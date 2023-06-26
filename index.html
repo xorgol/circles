@@ -10,9 +10,6 @@
     <script src="components.js"></script> -->
 </head>
 <script>
-
-
-
     //create a synth and connect it to the main output (your speakers)
     const synth = new Tone.PolySynth().toDestination();
 
@@ -34,8 +31,39 @@
     console.log(gFreq.toMidi());
     st = Math.pow(2, 1/12);
 
+    var pressedNotes = [];
+    var noteButtons = document.querySelectorAll('button');
+    var noteFundamentals = ['C4', 'G4', 'D4', 'A4', 'E4', 'B4', 'F#4', 'C#4', 'Ab4', 'Eb4', 'Bb4', 'F4'];
+    var duration = '8n';
+
     function constructScale() {
         console.log("Constructing Scale");
+        var octave = Number(document.querySelector('#octave').value)
+        var mode = document.querySelector('#minMaj').value;
+        var startFreq = Tone.Frequency(String(document.querySelector('#startingNote').value) + octave)
+        var noteButtons = document.querySelectorAll('button');
+        var noteOffsets = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5];
+        for (let i =0; i<noteButtons.length; i++) {
+            freq = startFreq.transpose(noteOffsets[i]);
+            console.log(freq.toMidi());
+            noteButtons[i].innerHTML = freq.toNote();
+            console.log(freq.toNote());
+            noteButtons[i].onclick= function (){
+
+                if(mode == 'minor') {
+                    synth.triggerAttackRelease([Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(3), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(5)], '8n');
+                    console.log("Minor triad");
+                    console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + freq.transpose(3).toNote() + " " + freq.transpose(5).toNote())
+            
+                }
+                else {
+                    synth.triggerAttackRelease([Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(4), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)], '8n');
+                console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + freq.transpose(4).toNote() + " " + freq.transpose(7).toNote())
+            
+                }
+                }
+
+        }
     }
     
 
@@ -54,8 +82,11 @@
             <option value="G">G</option>
             </select>
             <br>
+            <label for="octave">Choose starting octave:</label>
+            <input name="octave" id="octave" min="1" max="12" value="4" placeholder="4" onchange="constructScale()">
+            <br>
             <label for="minMaj">Major or Minor:</label>  
-            <select name="minMaj" id="minMaj">
+            <select name="minMaj" id="minMaj" onchange="constructScale()">
             <option value="major">Major</option>
             <option value="minor">Minor</option>
             </select>
@@ -87,34 +118,24 @@
     </div>
     <p id="pressedNotesParagraph"></p>
     <script>
-        var pressedNotes = [];
-        var noteButtons = document.querySelectorAll('button');
-        var noteFundamentals = ['C4', 'G4', 'D4', 'A4', 'E4', 'B4', 'F#4', 'C#4', 'Ab4', 'Eb4', 'Bb4', 'F4'];
-        
-        
-        
-        var duration = '8n';
-        for (let i=0; i< noteButtons.length; i++) {
-	        noteButtons[i].onclick= function (){
-                // base note, monophonic
-                //synth.triggerAttackRelease([noteFundamentals[i]], duration);
-                // polyphonic triad
-                var baseNote = Tone.Frequency(noteFundamentals[i]);
-                synth.triggerAttackRelease([baseNote, baseNote.transpose(4), baseNote.transpose(7)], duration);
-                console.log(baseNote.toNote() + " " + baseNote.transpose(4).toNote() + " " + baseNote.transpose(7).toNote())
-            pressedNotes.push(noteFundamentals[i]);
-            document.querySelector('#pressedNotesParagraph').innerHTML = pressedNotes;
-            console.log(noteFundamentals[i]);
-    }
-}
+        constructScale();
+    //     for (let i=0; i< noteButtons.length; i++) {
+	//         noteButtons[i].onclick= function (){
+    //             // base note, monophonic
+    //             //synth.triggerAttackRelease([noteFundamentals[i]], duration);
+    //             // polyphonic triad
+    //             var baseNote = Tone.Frequency(noteFundamentals[i]);
+    //             synth.triggerAttackRelease([baseNote, baseNote.transpose(4), baseNote.transpose(7)], duration);
+    //             console.log(baseNote.toNote() + " " + baseNote.transpose(4).toNote() + " " + baseNote.transpose(7).toNote())
+    //         pressedNotes.push(noteFundamentals[i]);
+    //         document.querySelector('#pressedNotesParagraph').innerHTML = pressedNotes;
+    //         console.log(noteFundamentals[i]);
+    // }
+//}
     </script>
     <!-- <div id="content"></div>
     <script type="text/javascript">
-		const synth = new Tone.PolySynth(Tone.Synth, {
-			oscillator: {
-				partials: [0, 2, 3, 4],
-			}
-		}).toDestination();
+		
 
 		piano({
 			parent: document.querySelector("#content"),
