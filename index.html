@@ -10,9 +10,21 @@
     <script src="components.js"></script> -->
 </head>
 <script>
+
+
+
     //create a synth and connect it to the main output (your speakers)
     const synth = new Tone.PolySynth().toDestination();
 
+
+    //attach a click listener to a play button
+    var buttons = document.querySelectorAll('button')
+    for(let i = 0; i<buttons.length; i++) {
+        buttons[i].addEventListener('click', async () => {
+	    await Tone.start();
+	    console.log('audio is ready');
+    })
+    }
     //Initialize note names
     var freq = new Tone.Frequency("C4");
     var gFreq = new Tone.Frequency("G4");
@@ -25,33 +37,36 @@
 
 </script>
 <body>
-    <div>
-      <h1>Circle of Blitz</h1>
-      <div id="options">
-      <label for="startingNote">Choose starting note:</label>  
-      <select name="startingNote" id="startingNote">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C" selected>C</option>
-        <option value="D">D</option>
-        <option value="E">E</option>
-        <option value="F">F</option>
-        <option value="G">G</option>
-      </select>
-      <br>
-      <label for="minMaj">Major or Minor:</label>  
-      <select name="minMaj" id="minMaj">
-        <option value="major">Major</option>
-        <option value="minor">Minor</option>
-      </select>
-      <br>
-      <label for="noteOrFreq">Display:</label>  
-      <select name="noteOrFreq" id="noteOrFreq">
-        <option value="note">Notes</option>
-        <option value="freq">Frequency</option>
-      </select>
-    </div>
-      <div class='circle-container'>
+    <h1>Circle of Blitz</h1>
+        <div id="options">
+            <label for="startingNote">Choose starting note:</label>  
+            <select name="startingNote" id="startingNote">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C" selected>C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            </select>
+            <br>
+            <label for="minMaj">Major or Minor:</label>  
+            <select name="minMaj" id="minMaj">
+            <option value="major">Major</option>
+            <option value="minor">Minor</option>
+            </select>
+            <br>
+            <label for="noteOrFreq">Display:</label>  
+            <select name="noteOrFreq" id="noteOrFreq">
+            <option value="note">Notes</option>
+            <option value="freq">Frequency</option>
+            </select>
+            <br>
+            <label for="bpm">BPM:</label>
+            <input name="bpm" id="bpm" type="number" min="30" max="300" value="60" placeholder="60">
+        </div>
+
+    <div class='circle-container'>
         <!-- C, G, D, A, E, B (=C♭), F♯ (=G♭), C♯ (=D♭), A♭, E♭, B♭, F -->
         <button class='deg270' onclick="synth.triggerAttackRelease(['C4', 'E4', 'G4'], '8n');">C</button>
         <button class='deg300' onclick="synth.triggerAttackRelease(['G4', 'A4', 'D5'], '8n');">G</button>
@@ -66,14 +81,23 @@
         <button class='deg210'>B♭</button>
         <button class='deg240'>F</button>
     </div>
+    <p id="pressedNotesParagraph"></p>
     <script>
-
-var noteButtons = document.querySelectorAll('button');
+        var pressedNotes = [];
+        var noteButtons = document.querySelectorAll('button');
+        var noteFundamentals = ['C4', 'G4', 'D4', 'A4', 'E4', 'B4', 'F#4', 'C#4', 'Ab4', 'Eb4', 'Bb4', 'F4'];
+        var duration = '8n';
         for (let i=0; i< noteButtons.length; i++) {
-  console.log(noteButtons[i].innerHTML)
-	noteButtons[i].onclick= function (){
-        synth.triggerAttackRelease([freq.transpose(7*i%12), freq.transpose(14*i%12+ 4), freq.transpose(18*i%12 + 8)], '8n'); 
-        console.log(freq.transpose(7*i%12));
+	        noteButtons[i].onclick= function (){
+                // base note, monophonic
+                //synth.triggerAttackRelease([noteFundamentals[i]], duration);
+                // polyphonic triad
+                var baseNote = Tone.Frequency(noteFundamentals[i]);
+                synth.triggerAttackRelease([baseNote, baseNote.transpose(4), baseNote.transpose(7)], duration);
+                console.log(baseNote.toNote() + " " + baseNote.transpose(4).toNote() + " " + baseNote.transpose(7).toNote())
+            pressedNotes.push(noteFundamentals[i]);
+            document.querySelector('#pressedNotesParagraph').innerHTML = pressedNotes;
+            console.log(noteFundamentals[i]);
     }
 }
     </script>
