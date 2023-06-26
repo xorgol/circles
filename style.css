@@ -31,11 +31,12 @@ h1, p {
     position: absolute;
     top: 50%; 
     left: 50%;
-    width: 3em; 
-    height: 3em;
+    width: 3rem; 
+    height: 3rem;
     margin: -10px;
+    padding: 1em;
   }
-  .circle-container button { display: block; width: 3em; height: 3em; }
+
   .deg0 { transform: translate(9rem); } /* 12em = half the width of the wrapper */
   .deg30 { transform: rotate(30deg) translate(9rem) rotate(-30deg); }
   .deg45 { transform: rotate(45deg) translate(9rem) rotate(-45deg); }

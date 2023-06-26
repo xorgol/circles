@@ -22,15 +22,6 @@
 	    console.log('audio is ready');
     })
     }
-    //Initialize note names
-    var freq = new Tone.Frequency("C4");
-    var gFreq = new Tone.Frequency("G4");
-    console.log(freq);
-    console.log(freq.toMidi());
-    console.log(gFreq);
-    console.log(gFreq.toMidi());
-    st = Math.pow(2, 1/12);
-
     var pressedNotes = [];
     var noteButtons = document.querySelectorAll('button');
     var noteFundamentals = ['C4', 'G4', 'D4', 'A4', 'E4', 'B4', 'F#4', 'C#4', 'Ab4', 'Eb4', 'Bb4', 'F4'];
@@ -41,26 +32,44 @@
         var octave = Number(document.querySelector('#octave').value)
         var mode = document.querySelector('#minMaj').value;
         var startFreq = Tone.Frequency(String(document.querySelector('#startingNote').value) + octave)
+        var noteDisplayMode = document.querySelector('#noteOrFreq').value;
         var noteButtons = document.querySelectorAll('button');
         var noteOffsets = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5];
         for (let i =0; i<noteButtons.length; i++) {
             freq = startFreq.transpose(noteOffsets[i]);
             console.log(freq.toMidi());
-            noteButtons[i].innerHTML = freq.toNote();
+            if(noteDisplayMode == "midi") {
+                noteButtons[i].innerHTML = freq.toMidi();
+            } else if (noteDisplayMode == "freq") {
+                noteButtons[i].innerHTML = freq.toFrequency().toFixed(1);
+            } else {
+                noteButtons[i].innerHTML = freq.toNote();
+            }
+            
             console.log(freq.toNote());
+            var notesToPlay = [];
             noteButtons[i].onclick= function (){
 
                 if(mode == 'minor') {
-                    synth.triggerAttackRelease([Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(3), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)], '8n');
+                    notesToPlay = [Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(3), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)]
+                    synth.triggerAttackRelease(notesToPlay, '8n');
                     console.log("Minor triad");
                     console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + freq.transpose(3).toNote() + " " + freq.transpose(7).toNote())
             
                 }
                 else {
-                    synth.triggerAttackRelease([Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(4), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)], '8n');
+                    notesToPlay = [Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(4), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)];
+                    synth.triggerAttackRelease(notesToPlay, '8n');
                 console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + freq.transpose(4).toNote() + " " + freq.transpose(7).toNote())
             
                 }
+                pressedNotes.push(notesToPlay[0]);
+                var pressedNotesString = "";
+                for (let i = 0; i<pressedNotes.length; i++) {
+                    pressedNotesString += (pressedNotes[i].toNote() + ", ")
+                }
+                document.querySelector('#pressedNotesParagraph').innerHTML = pressedNotesString;
+
                 }
 
         }
@@ -92,9 +101,10 @@
             </select>
             <br>
             <label for="noteOrFreq">Display:</label>  
-            <select name="noteOrFreq" id="noteOrFreq">
+            <select name="noteOrFreq" id="noteOrFreq" onchange="constructScale()">
             <option value="note">Notes</option>
             <option value="freq">Frequency</option>
+            <option value="midi">Midi</option>
             </select>
             <br>
             <label for="bpm">BPM:</label>
