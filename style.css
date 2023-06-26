@@ -19,10 +19,8 @@ h1, p {
   }
   
   .circle-container {
-    position: relative;
     width: 40vh;
     height: 40vh;
-    padding: 20px;
     /*2.8em = 2em*1.4 (2em = half the width of a link with img, 1.4 = sqrt(2))*/
     /* border: dashed 1px;
     border-radius: 50%; */
@@ -33,27 +31,27 @@ h1, p {
     position: absolute;
     top: 50%; 
     left: 50%;
-    width: 50px; 
-    height: 50px;
+    width: 3em; 
+    height: 3em;
     margin: -10px;
   }
   .circle-container button { display: block; width: 3em; height: 3em; }
-  .deg0 { transform: translate(20vh); } /* 12em = half the width of the wrapper */
-  .deg30 { transform: rotate(30deg) translate(20vh) rotate(-30deg); }
-  .deg45 { transform: rotate(45deg) translate(20vh) rotate(-45deg); }
-  .deg60 { transform: rotate(60deg) translate(20vh) rotate(-60deg); }
-  .deg90 { transform: rotate(90deg) translate(20vh) rotate(-90deg); }
-  .deg120 { transform: rotate(120deg) translate(20vh) rotate(-120deg); }
-  .deg135 { transform: rotate(135deg) translate(20vh) rotate(-135deg); }
-  .deg150 { transform: rotate(150deg) translate(20vh) rotate(-150deg); }
-  .deg180 { transform: translate(-20vh); }
-  .deg210 { transform: rotate(210deg) translate(20vh) rotate(-210deg); }
-  .deg225 { transform: rotate(225deg) translate(20vh) rotate(-225deg); }
-  .deg240 { transform: rotate(240deg) translate(20vh) rotate(-240deg); }
-  .deg270 { transform: rotate(270deg) translate(20vh) rotate(90deg); }
-  .deg300 { transform: rotate(300deg) translate(20vh) rotate(-300deg); }
-  .deg315 { transform: rotate(315deg) translate(20vh) rotate(-315deg); }
-  .deg330 { transform: rotate(330deg) translate(20vh) rotate(-330deg); }
+  .deg0 { transform: translate(9rem); } /* 12em = half the width of the wrapper */
+  .deg30 { transform: rotate(30deg) translate(9rem) rotate(-30deg); }
+  .deg45 { transform: rotate(45deg) translate(9rem) rotate(-45deg); }
+  .deg60 { transform: rotate(60deg) translate(9rem) rotate(-60deg); }
+  .deg90 { transform: rotate(90deg) translate(9rem) rotate(-90deg); }
+  .deg120 { transform: rotate(120deg) translate(9rem) rotate(-120deg); }
+  .deg135 { transform: rotate(135deg) translate(9rem) rotate(-135deg); }
+  .deg150 { transform: rotate(150deg) translate(9rem) rotate(-150deg); }
+  .deg180 { transform: translate(-9rem); }
+  .deg210 { transform: rotate(210deg) translate(9rem) rotate(-210deg); }
+  .deg225 { transform: rotate(225deg) translate(9rem) rotate(-225deg); }
+  .deg240 { transform: rotate(240deg) translate(9rem) rotate(-240deg); }
+  .deg270 { transform: rotate(270deg) translate(9rem) rotate(90deg); }
+  .deg300 { transform: rotate(300deg) translate(9rem) rotate(-300deg); }
+  .deg315 { transform: rotate(315deg) translate(9rem) rotate(-315deg); }
+  .deg330 { transform: rotate(330deg) translate(9rem) rotate(-330deg); }
   
   #options {
     width: 90vw;
@@ -63,7 +61,5 @@ h1, p {
   }
 
   @media (max-width: 40vh) {
-    #options {
-        background-color: red;
-    }
+    
   }
