@@ -15,8 +15,11 @@
 
     //Initialize note names
     var freq = new Tone.Frequency("C4");
+    var gFreq = new Tone.Frequency("G4");
     console.log(freq);
     console.log(freq.toMidi());
+    console.log(gFreq);
+    console.log(gFreq.toMidi());
     st = Math.pow(2, 1/12);
     
 
@@ -69,8 +72,8 @@ var noteButtons = document.querySelectorAll('button');
         for (let i=0; i< noteButtons.length; i++) {
   console.log(noteButtons[i].innerHTML)
 	noteButtons[i].onclick= function (){
-        synth.triggerAttackRelease([freq.transpose(5*i%12), freq.transpose(5*i%12+ 4), freq.transpose(5*i%12 + 8)], '8n'); 
-        console.log(freq.transpose(i%12));
+        synth.triggerAttackRelease([freq.transpose(7*i%12), freq.transpose(14*i%12+ 4), freq.transpose(18*i%12 + 8)], '8n'); 
+        console.log(freq.transpose(7*i%12));
     }
 }
     </script>
