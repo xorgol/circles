@@ -51,7 +51,7 @@
             noteButtons[i].onclick= function (){
 
                 if(mode == 'minor') {
-                    synth.triggerAttackRelease([Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(3), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(5)], '8n');
+                    synth.triggerAttackRelease([Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(3), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)], '8n');
                     console.log("Minor triad");
                     console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + freq.transpose(3).toNote() + " " + freq.transpose(7).toNote())
             
