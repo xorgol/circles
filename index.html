@@ -39,8 +39,8 @@
     function playSequence() {
         var baseNotes = document.querySelectorAll('.note');
         for (let i=0; i<baseNotes.length; i++) {
-            notesToPlay = [Tone.Frequency(String(baseNotes[i].innerHTML) + octave), Tone.Frequency(String(baseNotes[i].innerHTML) + octave).transpose(4), Tone.Frequency(String(baseNotes[i].innerHTML) + octave).transpose(7)]
-            synth.triggerAttackRelease(notesToPlay, duration);
+            // notesToPlay = [Tone.Frequency(String(baseNotes[i].innerHTML) + octave), Tone.Frequency(String(baseNotes[i].innerHTML) + octave).transpose(4), Tone.Frequency(String(baseNotes[i].innerHTML) + octave).transpose(7)]
+            // synth.triggerAttackRelease(notesToPlay, duration);
         }
     }
 
@@ -70,8 +70,6 @@
                 if(mode == 'minor') {
                     notesToPlay = [Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(3), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)]
                     synth.triggerAttackRelease(notesToPlay, '8n');
-                    wait(1);
-                    
                     
                     console.log("Minor triad");
                     console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(4).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7).toNote())
@@ -186,7 +184,7 @@
     <script>
         constructScale();
 
-        window.addEventListener("keydown", function (event) {
+        window.addEventListener("keyup", function (event) {
         
         if (event.key !== undefined) {
             // Handle the event with KeyboardEvent.key
