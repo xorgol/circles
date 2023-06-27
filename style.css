@@ -37,22 +37,55 @@ h1, p {
     padding: 1em;
   }
 
-  .deg0 { transform: translate(9rem); } /* 12em = half the width of the wrapper */
-  .deg30 { transform: rotate(30deg) translate(9rem) rotate(-30deg); }
-  .deg45 { transform: rotate(45deg) translate(9rem) rotate(-45deg); }
-  .deg60 { transform: rotate(60deg) translate(9rem) rotate(-60deg); }
-  .deg90 { transform: rotate(90deg) translate(9rem) rotate(-90deg); }
-  .deg120 { transform: rotate(120deg) translate(9rem) rotate(-120deg); }
-  .deg135 { transform: rotate(135deg) translate(9rem) rotate(-135deg); }
-  .deg150 { transform: rotate(150deg) translate(9rem) rotate(-150deg); }
+  .circle-container div {
+    display: block;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    margin: -10px;
+    padding: 1em;
+  }
+
+  :root {
+    --radius: 9rem;
+    --smallRadius: 6rem;
+  }
+
+  .deg0 { transform: translate(var(--radius, 9rem)); } /* 12em = half the width of the wrapper */
+  .deg30 { transform: rotate(30deg) translate(var(--radius, 9rem)) rotate(-30deg); }
+  .deg45 { transform: rotate(45deg) translate(var(--radius, 9rem)) rotate(-45deg); }
+  .deg60 { transform: rotate(60deg) translate(var(--radius, 9rem)) rotate(-60deg); }
+  .deg90 { transform: rotate(90deg) translate(var(--radius, 9rem)) rotate(-90deg); }
+  .deg120 { transform: rotate(120deg) translate(var(--radius, 9rem)) rotate(-120deg); }
+  .deg135 { transform: rotate(135deg) translate(var(--radius, 9rem)) rotate(-135deg); }
+  .deg150 { transform: rotate(150deg) translate(var(--radius, 9rem)) rotate(-150deg); }
   .deg180 { transform: translate(-9rem); }
-  .deg210 { transform: rotate(210deg) translate(9rem) rotate(-210deg); }
-  .deg225 { transform: rotate(225deg) translate(9rem) rotate(-225deg); }
-  .deg240 { transform: rotate(240deg) translate(9rem) rotate(-240deg); }
-  .deg270 { transform: rotate(270deg) translate(9rem) rotate(90deg); }
-  .deg300 { transform: rotate(300deg) translate(9rem) rotate(-300deg); }
-  .deg315 { transform: rotate(315deg) translate(9rem) rotate(-315deg); }
-  .deg330 { transform: rotate(330deg) translate(9rem) rotate(-330deg); }
+  .deg210 { transform: rotate(210deg) translate(var(--radius, 9rem)) rotate(-210deg); }
+  .deg225 { transform: rotate(225deg) translate(var(--radius, 9rem)) rotate(-225deg); }
+  .deg240 { transform: rotate(240deg) translate(var(--radius, 9rem)) rotate(-240deg); }
+  .deg270 { transform: rotate(270deg) translate(var(--radius, 9rem)) rotate(90deg); }
+  .deg300 { transform: rotate(300deg) translate(var(--radius, 9rem)) rotate(-300deg); }
+  .deg315 { transform: rotate(315deg) translate(var(--radius, 9rem)) rotate(-315deg); }
+  .deg330 { transform: rotate(330deg) translate(var(--radius, 9rem)) rotate(-330deg); }
+
+  .deg0small { transform: translate(var(--smallRadius, 9rem)); } /* 12em = half the width of the wrapper */
+  .deg30small { transform: rotate(30deg) translate(var(--smallRadius, 9rem)) rotate(-30deg); }
+  .deg45small { transform: rotate(45deg) translate(var(--smallRadius, 9rem)) rotate(-45deg); }
+  .deg60small { transform: rotate(60deg) translate(var(--smallRadius, 9rem)) rotate(-60deg); }
+  .deg90small { transform: rotate(90deg) translate(var(--smallRadius, 9rem)) rotate(-90deg); }
+  .deg120small { transform: rotate(120deg) translate(var(--smallRadius, 9rem)) rotate(-120deg); }
+  .deg135small { transform: rotate(135deg) translate(var(--smallRadius, 9rem)) rotate(-135deg); }
+  .deg150small { transform: rotate(150deg) translate(var(--smallRadius, 9rem)) rotate(-150deg); }
+  .deg180small { transform: translate(-9rem); }
+  .deg210small { transform: rotate(210deg) translate(var(--smallRadius, 9rem)) rotate(-210deg); }
+  .deg225small { transform: rotate(225deg) translate(var(--smallRadius, 9rem)) rotate(-225deg); }
+  .deg240small { transform: rotate(240deg) translate(var(--smallRadius, 9rem)) rotate(-240deg); }
+  .deg270small { transform: rotate(270deg) translate(var(--smallRadius, 9rem)) rotate(90deg); }
+  .deg300small { transform: rotate(300deg) translate(var(--smallRadius, 9rem)) rotate(-300deg); }
+  .deg315small { transform: rotate(315deg) translate(var(--smallRadius, 9rem)) rotate(-315deg); }
+  .deg330small { transform: rotate(330deg) translate(var(--smallRadius, 9rem)) rotate(-330deg); }
+
+  
   
   #options {
     width: 90vw;
