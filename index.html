@@ -23,7 +23,7 @@
     })
     }
     var pressedNotes = [];
-    var noteButtons = document.querySelectorAll('button');
+    var noteButtons = document.querySelectorAll('.circle-container button');
     var noteFundamentals = ['C4', 'G4', 'D4', 'A4', 'E4', 'B4', 'F#4', 'C#4', 'Ab4', 'Eb4', 'Bb4', 'F4'];
     var duration = '8n';
 
@@ -37,7 +37,7 @@
         var mode = document.querySelector('#minMaj').value;
         var startFreq = Tone.Frequency(String(document.querySelector('#startingNote').value) + octave)
         var noteDisplayMode = document.querySelector('#noteOrFreq').value;
-        var noteButtons = document.querySelectorAll('button');
+        var noteButtons = document.querySelectorAll('.circle-container button');
         var noteOffsets = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5];
         for (let i =0; i<noteButtons.length; i++) {
             freq = startFreq.transpose(noteOffsets[i]);
@@ -140,6 +140,7 @@
     <div id="playbackControls">
         <button>▶️</button>
         <button>⏸️</button>
+        <button onclick="document.querySelector('.notePlaylist').innerHTML = '';">❌</button>
     </div>
     <p id="pressedNotesParagraph"></p>
     <div class="notePlaylist"></div>
