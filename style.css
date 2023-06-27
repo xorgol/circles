@@ -111,6 +111,20 @@ h1, p {
     background-color: red;
   }
 
+  .controls {
+    margin: 5px;
+    display: flex;
+  }
+
+  .controls div {
+    padding: 5px;
+  }
+
+  .controls button {
+    margin: 1px;
+  }
+
+
   @media (max-width: 40vh) {
     
   }

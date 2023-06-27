@@ -6,19 +6,11 @@
     <title>Circle of Chords</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
-    <!-- <script src="tone-ui.js"></script>
-    <script src="components.js"></script> -->
 </head>
 <script>
-    //create a synth and connect it to the main output (your speakers)
+    //create a synth and connect it to the main output
     const synth = new Tone.PolySynth().toDestination();
     var notes = {};
-
-//     const notes = [
-//   { note: 'C4', duration: '8n' },
-//   { note: 'G4', duration: '8n' },
-//   { note: ['C4', 'G4'], duration: '4n' }
-// ]
 
     const sequence = new Sequence({
         subdivision: '8n',
@@ -26,11 +18,6 @@
         events: notes,
         callback: (time, note) => synth.triggerAttackRelease(note.note, note.duration, time),
     })
-
-  
-     
-
-
 
     //attach a click listener to a play button
     var buttons = document.querySelectorAll('button')
@@ -47,6 +34,14 @@
 
     function remove(element) {
         element.remove();
+    }
+
+    function playSequence() {
+        var baseNotes = document.querySelectorAll('.note');
+        for (let i=0; i<baseNotes.length; i++) {
+            notesToPlay = [Tone.Frequency(String(baseNotes[i].innerHTML) + octave), Tone.Frequency(String(baseNotes[i].innerHTML) + octave).transpose(4), Tone.Frequency(String(baseNotes[i].innerHTML) + octave).transpose(7)]
+            synth.triggerAttackRelease(notesToPlay, duration);
+        }
     }
 
     function constructScale() {
@@ -75,6 +70,7 @@
                 if(mode == 'minor') {
                     notesToPlay = [Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(3), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)]
                     synth.triggerAttackRelease(notesToPlay, '8n');
+                    wait(1);
                     
                     
                     console.log("Minor triad");
@@ -96,7 +92,7 @@
 
                 }
                 console.log(triad);
-                notes += {note: triad, duration: '8n'};
+                //notes.append({note: triad, duration: '8n'});
 
                 console.log("Notes: " + notes);
 
@@ -170,70 +166,51 @@
         <div class="deg60small">vii°</div>
 
     </div>
-    <div id="playbackControls">
-        <button>▶️</button>
-        <button>⏸️</button>
+    <div id="playbackControls" class="controls">
+        <div>Sequence controls</div>
+        <!-- <button onclick="Tone.Transport.start()">▶️</button> -->
+        <button onclick="playSequence()">▶️</button>
+        <button onclick="Tone.Transport.stop()">⏸️</button>
         <button onclick="document.querySelector('.notePlaylist').innerHTML = '';">❌</button>
+        <button>⬇️</button>
+    </div>
+    <div id="durationControls" class="controls">
+        <div>Duration controls</div>
+        <button>1n</button>
+        <button>2n</button>
+        <button>4n</button>
+        <button>8n</button>
     </div>
     <p id="pressedNotesParagraph"></p>
     <div class="notePlaylist"></div>
     <script>
         constructScale();
-    //     for (let i=0; i< noteButtons.length; i++) {
-	//         noteButtons[i].onclick= function (){
-    //             // base note, monophonic
-    //             //synth.triggerAttackRelease([noteFundamentals[i]], duration);
-    //             // polyphonic triad
-    //             var baseNote = Tone.Frequency(noteFundamentals[i]);
-    //             synth.triggerAttackRelease([baseNote, baseNote.transpose(4), baseNote.transpose(7)], duration);
-    //             console.log(baseNote.toNote() + " " + baseNote.transpose(4).toNote() + " " + baseNote.transpose(7).toNote())
-    //         pressedNotes.push(noteFundamentals[i]);
-    //         document.querySelector('#pressedNotesParagraph').innerHTML = pressedNotes;
-    //         console.log(noteFundamentals[i]);
-    // }
-//}
 
-window.addEventListener("keydown", function (event) {
-  
-  if (event.key !== undefined) {
-      // Handle the event with KeyboardEvent.key
-          if(event.key==1) {
-                  document.querySelector('.deg270').click();
-              }
-              else if (event.key==2) {
-                  document.querySelector('.deg330').click();
-              } else if (event.key==3) {
-                  document.querySelector('.deg30').click();
-              } else if (event.key==4) {
-                  document.querySelector('.deg240').click();
-              } else if (event.key==5) {
-                  document.querySelector('.deg300').click();
-              } else if (event.key==6) {
-                  document.querySelector('.deg0').click();
-              } else if (event.key==7) {
-                  document.querySelector('.deg60').click();
-              }
+        window.addEventListener("keydown", function (event) {
+        
+        if (event.key !== undefined) {
+            // Handle the event with KeyboardEvent.key
+                if(event.key==1) {
+                        document.querySelector('.deg270').click();
+                    }
+                    else if (event.key==2) {
+                        document.querySelector('.deg330').click();
+                    } else if (event.key==3) {
+                        document.querySelector('.deg30').click();
+                    } else if (event.key==4) {
+                        document.querySelector('.deg240').click();
+                    } else if (event.key==5) {
+                        document.querySelector('.deg300').click();
+                    } else if (event.key==6) {
+                        document.querySelector('.deg0').click();
+                    } else if (event.key==7) {
+                        document.querySelector('.deg60').click();
+                    }
 
-  } else if (event.which !== undefined) {
-      // Handle the event with KeyboardEvent.which
-  }
-});    
+        } else if (event.which !== undefined) {
+            // Handle the event with KeyboardEvent.which
+        }
+        });    
     </script>
-    <!-- <div id="content"></div>
-    <script type="text/javascript">
-		
-
-		piano({
-			parent: document.querySelector("#content"),
-			polyphonic: true,
-			noteon: note => synth.triggerAttack(note.name),
-			noteoff: note => synth.triggerRelease(note.name)
-		});
-		
-		ui({
-			tone: synth,
-			parent: document.querySelector("#content"),
-		});
-	</script> -->
 </body>
 </html>
