@@ -97,6 +97,7 @@ h1, p {
   .notePlaylist {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
   }
 
   .note {
