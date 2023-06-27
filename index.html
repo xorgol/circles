@@ -27,6 +27,10 @@
     var noteFundamentals = ['C4', 'G4', 'D4', 'A4', 'E4', 'B4', 'F#4', 'C#4', 'Ab4', 'Eb4', 'Bb4', 'F4'];
     var duration = '8n';
 
+    function remove(element) {
+        element.remove();
+    }
+
     function constructScale() {
         console.log("Constructing Scale");
         var octave = Number(document.querySelector('#octave').value)
@@ -54,21 +58,28 @@
                     notesToPlay = [Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(3), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)]
                     synth.triggerAttackRelease(notesToPlay, '8n');
                     console.log("Minor triad");
-                    console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + freq.transpose(3).toNote() + " " + freq.transpose(7).toNote())
+                    console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(4).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7).toNote())
             
                 }
                 else {
                     notesToPlay = [Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(4), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)];
                     synth.triggerAttackRelease(notesToPlay, '8n');
-                console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + freq.transpose(4).toNote() + " " + freq.transpose(7).toNote())
+                console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(4).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7).toNote())
             
                 }
-                pressedNotes.push(notesToPlay[0]);
-                var pressedNotesString = "";
-                for (let i = 0; i<pressedNotes.length; i++) {
-                    pressedNotesString += (pressedNotes[i].toNote() + ", ")
-                }
-                document.querySelector('#pressedNotesParagraph').innerHTML = pressedNotesString;
+                // Prapagraph note logger
+                // pressedNotes.push(notesToPlay[0]);
+                // var pressedNotesString = "";
+                // for (let i = 0; i<pressedNotes.length; i++) {
+                //     pressedNotesString += (pressedNotes[i].toNote() + ", ")
+                // }
+                // document.querySelector('#pressedNotesParagraph').innerHTML = pressedNotesString;
+
+                var newNote = document.createElement('div');
+                newNote.className += "note";
+                newNote.innerHTML = notesToPlay[0].toNote();
+                newNote.onclick = function () {this.remove()};
+                document.querySelector('.notePlaylist').appendChild(newNote);
 
                 }
 
@@ -126,7 +137,12 @@
         <button class='deg210'>B♭</button>
         <button class='deg240'>F</button>
     </div>
+    <div id="playbackControls">
+        <button>▶️</button>
+        <button>⏸️</button>
+    </div>
     <p id="pressedNotesParagraph"></p>
+    <div class="notePlaylist"></div>
     <script>
         constructScale();
     //     for (let i=0; i< noteButtons.length; i++) {
