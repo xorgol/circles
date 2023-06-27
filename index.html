@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Circles of Fifth</title>
+    <title>Circle of Chords</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
     <!-- <script src="tone-ui.js"></script>
@@ -28,31 +28,7 @@
     })
 
   
-        window.addEventListener("keydown", function (event) {
-  
-  if (event.key !== undefined) {
-    // Handle the event with KeyboardEvent.key
-		if(event.key==1) {
-				document.querySelector('.deg270').click();
-            }
-            else if (event.key==2) {
-                document.querySelector('.deg330').click();
-            } else if (event.key==3) {
-                document.querySelector('.deg30').click();
-            } else if (event.key==4) {
-                document.querySelector('.deg240').click();
-            } else if (event.key==5) {
-                document.querySelector('.deg300').click();
-            } else if (event.key==6) {
-                document.querySelector('.deg0').click();
-            } else if (event.key==7) {
-                document.querySelector('.deg60').click();
-            }
-
-} else if (event.which !== undefined) {
-    // Handle the event with KeyboardEvent.which
-  }
-});
+     
 
 
 
@@ -138,7 +114,7 @@
 
 </script>
 <body>
-    <h1>Circle of Blitz</h1>
+    <h1>Circle of Chords</h1>
         <div id="options">
             <label for="startingNote">Choose starting note:</label>  
             <select name="startingNote" id="startingNote" onchange="constructScale()">
@@ -216,6 +192,32 @@
     //         console.log(noteFundamentals[i]);
     // }
 //}
+
+window.addEventListener("keydown", function (event) {
+  
+  if (event.key !== undefined) {
+      // Handle the event with KeyboardEvent.key
+          if(event.key==1) {
+                  document.querySelector('.deg270').click();
+              }
+              else if (event.key==2) {
+                  document.querySelector('.deg330').click();
+              } else if (event.key==3) {
+                  document.querySelector('.deg30').click();
+              } else if (event.key==4) {
+                  document.querySelector('.deg240').click();
+              } else if (event.key==5) {
+                  document.querySelector('.deg300').click();
+              } else if (event.key==6) {
+                  document.querySelector('.deg0').click();
+              } else if (event.key==7) {
+                  document.querySelector('.deg60').click();
+              }
+
+  } else if (event.which !== undefined) {
+      // Handle the event with KeyboardEvent.which
+  }
+});    
     </script>
     <!-- <div id="content"></div>
     <script type="text/javascript">
