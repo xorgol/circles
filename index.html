@@ -12,6 +12,48 @@
 <script>
     //create a synth and connect it to the main output (your speakers)
     const synth = new Tone.PolySynth().toDestination();
+    var notes = {};
+
+//     const notes = [
+//   { note: 'C4', duration: '8n' },
+//   { note: 'G4', duration: '8n' },
+//   { note: ['C4', 'G4'], duration: '4n' }
+// ]
+
+    const sequence = new Sequence({
+        subdivision: '8n',
+        loop: false,
+        events: notes,
+        callback: (time, note) => synth.triggerAttackRelease(note.note, note.duration, time),
+    })
+
+  
+        window.addEventListener("keydown", function (event) {
+  
+  if (event.key !== undefined) {
+    // Handle the event with KeyboardEvent.key
+		if(event.key==1) {
+				document.querySelector('.deg270').click();
+            }
+            else if (event.key==2) {
+                document.querySelector('.deg330').click();
+            } else if (event.key==3) {
+                document.querySelector('.deg30').click();
+            } else if (event.key==4) {
+                document.querySelector('.deg240').click();
+            } else if (event.key==5) {
+                document.querySelector('.deg300').click();
+            } else if (event.key==6) {
+                document.querySelector('.deg0').click();
+            } else if (event.key==7) {
+                document.querySelector('.deg60').click();
+            }
+
+} else if (event.which !== undefined) {
+    // Handle the event with KeyboardEvent.which
+  }
+});
+
 
 
     //attach a click listener to a play button
@@ -57,6 +99,8 @@
                 if(mode == 'minor') {
                     notesToPlay = [Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(3), Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7)]
                     synth.triggerAttackRelease(notesToPlay, '8n');
+                    
+                    
                     console.log("Minor triad");
                     console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(4).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7).toNote())
             
@@ -67,13 +111,18 @@
                 console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(4).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7).toNote())
             
                 }
-                // Prapagraph note logger
-                // pressedNotes.push(notesToPlay[0]);
-                // var pressedNotesString = "";
-                // for (let i = 0; i<pressedNotes.length; i++) {
-                //     pressedNotesString += (pressedNotes[i].toNote() + ", ")
-                // }
-                // document.querySelector('#pressedNotesParagraph').innerHTML = pressedNotesString;
+                console.log("Notes to play: ");
+                var triad = [];
+                for (let i=0; i<notesToPlay.length; i++) {
+                    triad.push(notesToPlay[i].toMidi());
+                    
+                    console.log(notesToPlay[i].toNote())
+
+                }
+                console.log(triad);
+                notes += {note: triad, duration: '8n'};
+
+                console.log("Notes: " + notes);
 
                 var newNote = document.createElement('div');
                 newNote.className += "note";
