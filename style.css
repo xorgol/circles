@@ -113,6 +113,8 @@ h1, p {
     padding: 1em;
     border-radius: 5px;
     margin: 2px;
+    border-width: 1px;
+    border-style: solid;
   }
 
   .note:hover {

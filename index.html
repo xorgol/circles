@@ -21,23 +21,12 @@
 	    console.log('audio is ready');
     })
     }
-    var pressedNotes = [];
+
     var noteButtons = document.querySelectorAll('.circle-container button');
     var noteFundamentals = ['C4', 'G4', 'D4', 'A4', 'E4', 'B4', 'F#4', 'C#4', 'Ab4', 'Eb4', 'Bb4', 'F4'];
     var duration = '8n';
     var counter = 0;
 
-    function remove(element) {
-        element.remove();
-    }
-
-    function playSequence() {
-        var baseNotes = document.querySelectorAll('.note');
-        for (let i=0; i<baseNotes.length; i++) {
-            // notesToPlay = [Tone.Frequency(String(baseNotes[i].innerHTML) + octave), Tone.Frequency(String(baseNotes[i].innerHTML) + octave).transpose(4), Tone.Frequency(String(baseNotes[i].innerHTML) + octave).transpose(7)]
-            // synth.triggerAttackRelease(notesToPlay, duration);
-        }
-    }
 
     function song(time) {
         // Set frequency for chord base
@@ -108,14 +97,31 @@
                 }
 
                 var newNote = document.createElement('div');
+                newNote.id = Date.now();
                 newNote.classList.add("note");
                 newNote.setAttribute("mode", mode);
                 newNote.setAttribute("duration", '8n');
                 newNote.setAttribute("draggable", "true");
+                newNote.ondragover = (event) => {
+                    event.preventDefault();
+                }
                 newNote.ondragstart = (event) => {
+                    event.dataTransfer.clearData();
                     event.dataTransfer.setData('text/plain', event.target.id);
-                    event.currentTarget.style.backgroundColor = 'yellow';
+                    event.currentTarget.classList.add("dragging");
                 };
+
+                newNote.ondragend = (event) => {
+                    event.currentTarget.classList.remove("dragging");
+                }
+                newNote.ondrop = (event) => {
+                    const id = event.dataTransfer.getData('text');
+                    console.log(id);
+                    const draggableElement = document.getElementById(id);
+                    const dropzone = event.target;
+                    dropzone.after(draggableElement);
+                    
+                }
                 newNote.innerHTML = notesToPlay[0].toNote();
                 newNote.onclick = function () {this.remove()};
                 document.querySelector('.notePlaylist').appendChild(newNote);
@@ -201,10 +207,15 @@
     </div>
     <div id="durationControls" class="controls">
         <div>Duration controls</div>
-        <button>1n</button>
-        <button>2n</button>
-        <button>4n</button>
-        <button>8n</button>
+        <!-- ondragstart = (event) => {
+            event.dataTransfer.clearData();
+            event.dataTransfer.setData('text/plain', event.target.id);
+            event.currentTarget.classList.add("dragging");
+        }; -->
+        <button id="1n" draggable="true" ondragstart="console.log(this.id);">1n</button>
+        <button id="2n" draggable="true">2n</button>
+        <button id="4n" draggable="true">4n</button>
+        <button id="8n" draggable="true">8n</button>
     </div>
     <p id="pressedNotesParagraph"></p>
     <div class="notePlaylist"></div>
