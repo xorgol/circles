@@ -132,7 +132,13 @@
                         const draggableElement = document.getElementById(id);
                         if (event.getModifierState("Shift")) {
                             event.preventDefault(); // consume the key event
-                            draggableElement.duration = '4n';
+                            var prevDuration = Tone.Time(draggableElement.getAttribute('duration'));
+                            prevDuration = prevDuration.toNotation().split('n');
+                            prevDuration[0]*=2;
+                            prevDuration= ""+prevDuration[0]+"n";
+                            //console.log(prevDuration);
+                            
+                            draggableElement.setAttribute('duration', prevDuration);
                             dropzone.appendChild(draggableElement);
                         } else {
                             dropzone.before(draggableElement);
