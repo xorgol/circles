@@ -136,6 +136,9 @@
                 newNote.id = Date.now();
                 newNote.classList.add("note");
                 newNote.setAttribute("mode", mode);
+                if(mode=='minor') {
+                    newNote.classList.add('minor');
+                }
                 newNote.setAttribute("duration", '8n');
                 newNote.setAttribute("draggable", "true");
                 newNote.ondragover = (event) => {
