@@ -121,13 +121,17 @@
                     if(id==null){
 
                     } else if (id== '1n') {
-                        dropzone.duration = '1n';
+                        dropzone.setAttribute('duration', '1n');
+                        dropzone.style.padding = '8em';
                     } else if (id=='2n') {
-                        dropzone.duration = '2n';
+                        dropzone.setAttribute('duration', '2n');
+                        dropzone.style.padding = '4rem';
                     } else if (id=='4n') {
-                        dropzone.duration = '4n';
+                        dropzone.setAttribute('duration', '4n');
+                        dropzone.style.padding = '2rem';
                     } else if (id=='8n') {
-                        dropzone.duration = '8n';
+                        dropzone.setAttribute('duration', '8n');
+                        dropzone.style.padding = '1rem';
                     } else {
                         const draggableElement = document.getElementById(id);
                         if (event.getModifierState("Shift")) {
@@ -195,7 +199,7 @@
             <label for="noteOrFreq">Display:</label>  
             <select name="noteOrFreq" id="noteOrFreq" onchange="constructScale()">
             <option value="note">Notes</option>
-            <option value="freq">Frequency</option>
+            <!-- <option value="freq">Frequency</option> -->
             <option value="midi">Midi</option>
             </select>
         </div>
@@ -278,6 +282,50 @@
         var counter = 0;
         var loopBeat = new Tone.Loop(song, '4n')
         loopBeat.start(0);
+
+        var onen = document.querySelector('#\\31n');
+        onen.ondragstart = (event) => {
+                    event.dataTransfer.clearData();
+                    event.dataTransfer.setData('text/plain', event.target.id);
+                    event.currentTarget.classList.add("dragging");
+                };
+
+        onen.ondragend = (even) => {
+            event.currentTarget.classList.remove("dragging");
+        }
+
+        var twon = document.querySelector('#\\32n');
+        twon.ondragstart = (event) => {
+                    event.dataTransfer.clearData();
+                    event.dataTransfer.setData('text/plain', event.target.id);
+                    event.currentTarget.classList.add("dragging");
+                };
+
+        twon.ondragend = (even) => {
+            event.currentTarget.classList.remove("dragging");
+        }
+
+        var fourn = document.querySelector('#\\34n');
+        fourn.ondragstart = (event) => {
+                    event.dataTransfer.clearData();
+                    event.dataTransfer.setData('text/plain', event.target.id);
+                    event.currentTarget.classList.add("dragging");
+                };
+
+        fourn.ondragend = (even) => {
+            event.currentTarget.classList.remove("dragging");
+        }
+
+        var eigthn = document.querySelector('#\\38n');
+        eigthn.ondragstart = (event) => {
+                    event.dataTransfer.clearData();
+                    event.dataTransfer.setData('text/plain', event.target.id);
+                    event.currentTarget.classList.add("dragging");
+                };
+
+        eigthn.ondragend = (even) => {
+            event.currentTarget.classList.remove("dragging");
+        }
 
     </script>
 </body>
