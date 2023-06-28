@@ -108,7 +108,7 @@ h1, p {
   }
 
   .note:hover {
-    background-color: red;
+    background-color: red !important;
   }
 
   .controls {

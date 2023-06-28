@@ -31,6 +31,7 @@
     var noteButtons = document.querySelectorAll('.circle-container button');
     var noteFundamentals = ['C4', 'G4', 'D4', 'A4', 'E4', 'B4', 'F#4', 'C#4', 'Ab4', 'Eb4', 'Bb4', 'F4'];
     var duration = '8n';
+    var counter = 0;
 
     function remove(element) {
         element.remove();
@@ -42,6 +43,24 @@
             // notesToPlay = [Tone.Frequency(String(baseNotes[i].innerHTML) + octave), Tone.Frequency(String(baseNotes[i].innerHTML) + octave).transpose(4), Tone.Frequency(String(baseNotes[i].innerHTML) + octave).transpose(7)]
             // synth.triggerAttackRelease(notesToPlay, duration);
         }
+    }
+
+    function song(time) {
+        // Set frequency for chord base
+        let tf = new Tone.Frequency(document.querySelectorAll('.note')[counter].innerHTML);
+        // Play major triad
+	    synth.triggerAttackRelease(tf, '8n', time);
+	    synth.triggerAttackRelease(tf.transpose(4), '8n', time);
+	    synth.triggerAttackRelease(tf.transpose(7), '8n', time);
+        // To-do: minor triad
+
+        // Highlight current chord
+        for (let i=0; i<document.querySelectorAll('.note').length; i++) {
+            document.querySelectorAll('.note')[i].style.backgroundColor = "#CCC";
+        }
+        document.querySelectorAll('.note')[counter].style.backgroundColor = "#4A4";
+
+	    counter = (counter +1)%document.querySelectorAll('.note').length;
     }
 
     function constructScale() {
@@ -62,6 +81,8 @@
             } else {
                 noteButtons[i].innerHTML = freq.toNote();
             }
+
+            
             
             console.log(freq.toNote());
             var notesToPlay = [];
@@ -81,6 +102,7 @@
                 console.log(Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(4).toNote() + " " + Tone.Frequency(String(document.querySelector('#startingNote').value) + octave).transpose(noteOffsets[i]).transpose(7).toNote())
             
                 }
+
                 console.log("Notes to play: ");
                 var triad = [];
                 for (let i=0; i<notesToPlay.length; i++) {
@@ -101,7 +123,6 @@
                 document.querySelector('.notePlaylist').appendChild(newNote);
 
                 }
-
         }
     }
     
@@ -155,6 +176,7 @@
         <button class='deg180'>E♭</button>
         <button class='deg210'>B♭</button>
         <button class='deg240'>F</button>
+        <!-- <button id="silence">🤫</button> -->
         <div class="deg240small">IV</div>
         <div class="deg270small">I</div>
         <div class="deg300small">V</div>
@@ -166,8 +188,8 @@
     </div>
     <div id="playbackControls" class="controls">
         <div>Sequence controls</div>
-        <!-- <button onclick="Tone.Transport.start()">▶️</button> -->
-        <button onclick="playSequence()">▶️</button>
+        <button onclick="Tone.Transport.start()">▶️</button>
+        <!-- <button onclick="playSequence()">▶️</button> -->
         <button onclick="Tone.Transport.stop()">⏸️</button>
         <button onclick="document.querySelector('.notePlaylist').innerHTML = '';">❌</button>
         <button>⬇️</button>
@@ -209,6 +231,10 @@
             // Handle the event with KeyboardEvent.which
         }
         });    
+
+        var counter = 0;
+        var loopBeat = new Tone.Loop(song, '4n')
+        loopBeat.start(0);
     </script>
 </body>
 </html>
