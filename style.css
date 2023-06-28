@@ -147,6 +147,8 @@ h1, p {
   }
 
 
-  @media (max-width: 40vh) {
-    
+  @media (max-height: 500px) {
+    h1 {
+        display: none;
+    }
   }
