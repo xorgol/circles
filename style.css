@@ -124,6 +124,10 @@ h1, p {
     margin: 1px;
   }
 
+  .dragging {
+    opacity: 50%;
+  }
+
 
   @media (max-width: 40vh) {
     

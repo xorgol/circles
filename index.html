@@ -48,11 +48,21 @@
     function song(time) {
         // Set frequency for chord base
         let tf = new Tone.Frequency(document.querySelectorAll('.note')[counter].innerHTML);
-        // Play major triad
-	    synth.triggerAttackRelease(tf, '8n', time);
-	    synth.triggerAttackRelease(tf.transpose(4), '8n', time);
-	    synth.triggerAttackRelease(tf.transpose(7), '8n', time);
-        // To-do: minor triad
+        let mode = document.querySelectorAll('.note')[counter].getAttribute('mode');
+        let duration = document.querySelectorAll('.note')[counter].getAttribute('duration');
+        console.log("Duration = " + duration);
+        if(mode == "minor") {
+            //Play minor triad
+            synth.triggerAttackRelease(tf, duration, time);
+	        synth.triggerAttackRelease(tf.transpose(3), duration, time);
+	        synth.triggerAttackRelease(tf.transpose(7), duration, time);
+        } else {
+            // Play major triad
+	        synth.triggerAttackRelease(tf, duration, time);
+	        synth.triggerAttackRelease(tf.transpose(4), duration, time);
+	        synth.triggerAttackRelease(tf.transpose(7), duration, time);
+        }
+
 
         // Highlight current chord
         for (let i=0; i<document.querySelectorAll('.note').length; i++) {
@@ -117,7 +127,14 @@
                 console.log("Notes: " + notes);
 
                 var newNote = document.createElement('div');
-                newNote.className += "note";
+                newNote.classList.add("note");
+                newNote.setAttribute("mode", mode);
+                newNote.setAttribute("duration", '8n');
+                newNote.setAttribute("draggable", "true");
+                newNote.ondragstart = (event) => {
+                    event.dataTransfer.setData('text/plain', event.target.id);
+                    event.currentTarget.style.backgroundColor = 'yellow';
+                };
                 newNote.innerHTML = notesToPlay[0].toNote();
                 newNote.onclick = function () {this.remove()};
                 document.querySelector('.notePlaylist').appendChild(newNote);
@@ -133,13 +150,23 @@
         <div id="options">
             <label for="startingNote">Choose starting note:</label>  
             <select name="startingNote" id="startingNote" onchange="constructScale()">
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C" selected>C</option>
-            <option value="D">D</option>
-            <option value="E">E</option>
-            <option value="F">F</option>
-            <option value="G">G</option>
+                <option value="Ab">Ab</option>
+                <option value="A">A</option>
+                <option value="A#">A#</option>
+                <option value="Bb">Bb</option>
+                <option value="B">B</option>
+                <option value="C" selected>C</option>
+                <option value="C#">C#</option>
+                <option value="Db">Db</option>
+                <option value="D">D</option>
+                <option value="D#">D#</option>
+                <option value="Eb">Eb</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="F#">F#</option>
+                <option value="Gb">Gb</option>
+                <option value="G">G</option>
+                <option value="G#">G#</option>
             </select>
             <br>
             <label for="octave">Choose starting octave:</label>
@@ -157,9 +184,9 @@
             <option value="freq">Frequency</option>
             <option value="midi">Midi</option>
             </select>
-            <br>
+            <!-- <br>
             <label for="bpm">BPM:</label>
-            <input name="bpm" id="bpm" type="number" min="30" max="300" value="60" placeholder="60">
+            <input name="bpm" id="bpm" type="number" min="30" max="300" value="60" placeholder="60"> -->
         </div>
 
     <div class='circle-container'>
@@ -235,6 +262,7 @@
         var counter = 0;
         var loopBeat = new Tone.Loop(song, '4n')
         loopBeat.start(0);
+
     </script>
 </body>
 </html>
