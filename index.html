@@ -8,6 +8,7 @@
     <!-- <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script> -->
     <script src="tone.js"></script>
     <script src="https://unpkg.com/@tonejs/midi"></script>
+    <script src="https://unpkg.com/unmute" data-add-button="true"></script>
     <script src=" https://cdn.jsdelivr.net/npm/mobile-drag-drop@3.0.0-rc.0/index.min.js "></script>
 <link href=" https://cdn.jsdelivr.net/npm/mobile-drag-drop@3.0.0-rc.0/default.min.css " rel="stylesheet">
     
@@ -206,9 +207,9 @@
         // create a new midi file
         var midi = new Midi()
         // add a track
-        const track1 = midi.addTrack();
-        const track2 = midi.addTrack();
-        const track2 = midi.addTrack();
+        var track1 = midi.addTrack();
+        var track2 = midi.addTrack();
+        var track3 = midi.addTrack();
 
         //Tone.Transport.stop()
         var midiCounter = 0;
@@ -325,7 +326,7 @@
             document.querySelectorAll('.note')[i].classList.remove('playing');
         }; counter = 0;">⏸️</button>
         <button onclick="Tone.Transport.stop(); document.querySelector('.notePlaylist').innerHTML = '';">❌</button>
-        <button>⬇️</button>
+        <button onclick="createMidi()">⬇️</button>
     </div>
     <div id="durationControls" class="controls">
         <div>Duration controls</div>
