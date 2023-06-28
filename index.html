@@ -7,7 +7,34 @@
     <link href="style.css" rel="stylesheet" type="text/css" />
     <!-- <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script> -->
     <script src="tone.js"></script>
+    
 </head>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+    const firebaseConfig = {  
+      apiKey: "AIzaSyAy4bj5oUruu81i6SUgvo17oZyLBBC9xyE",
+      authDomain: "demona-c29a9.firebaseapp.com",
+      projectId: "demona-c29a9",
+      storageBucket: "demona-c29a9.appspot.com",
+      messagingSenderId: "236218329665",
+      appId: "1:236218329665:web:fc5263caf5bbdec5b8b4c0",
+      measurementId: "G-7ZM3EKPHF3"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+</script>
 <script>
     //create a synth and connect it to the main output
     const synth = new Tone.PolySynth().toDestination();
@@ -49,9 +76,9 @@
 
         // Highlight current chord
         for (let i=0; i<document.querySelectorAll('.note').length; i++) {
-            document.querySelectorAll('.note')[i].style.backgroundColor = "#CCC";
+            document.querySelectorAll('.note')[i].classList.remove('playing');
         }
-        document.querySelectorAll('.note')[counter].style.backgroundColor = "#4A4";
+        document.querySelectorAll('.note')[counter].classList.add('playing');
 
 	    counter = (counter +1)%document.querySelectorAll('.note').length;
     }
@@ -235,7 +262,9 @@
         <div>Sequence controls</div>
         <button onclick="Tone.Transport.start()">▶️</button>
         <!-- <button onclick="playSequence()">▶️</button> -->
-        <button onclick="Tone.Transport.stop()">⏸️</button>
+        <button onclick="Tone.Transport.stop(); for (let i=0; i<document.querySelectorAll('.note').length; i++) {
+            document.querySelectorAll('.note')[i].classList.remove('playing');
+        }; counter = 0;">⏸️</button>
         <button onclick="Tone.Transport.stop(); document.querySelector('.notePlaylist').innerHTML = '';">❌</button>
         <button>⬇️</button>
     </div>
