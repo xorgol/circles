@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Circle of Chords</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
-    <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
+    <!-- <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script> -->
+    <script src="tone.js"></script>
 </head>
 <script>
     //create a synth and connect it to the main output
     const synth = new Tone.PolySynth().toDestination();
     var notes = {};
 
-    const sequence = new Sequence({
-        subdivision: '8n',
-        loop: false,
-        events: notes,
-        callback: (time, note) => synth.triggerAttackRelease(note.note, note.duration, time),
-    })
+    // const sequence = new Sequence({
+    //     subdivision: '8n',
+    //     loop: false,
+    //     events: notes,
+    //     callback: (time, note) => synth.triggerAttackRelease(note.note, note.duration, time),
+    // })
 
     //attach a click listener to a play button
     var buttons = document.querySelectorAll('button')

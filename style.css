@@ -94,6 +94,14 @@ h1, p {
     margin-right: auto;
   }
 
+  #options>label {
+    padding-top: 15px;
+  }
+
+  #octave {
+    max-width: 2em;
+  }
+
   .notePlaylist {
     display: flex;
     flex-direction: row;
