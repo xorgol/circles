@@ -132,6 +132,9 @@
                     } else if (id=='8n') {
                         dropzone.setAttribute('duration', '8n');
                         dropzone.style.padding = '1rem';
+                    } else if (id=='xvin') {
+                        dropzone.setAttribute('duration', '16n');
+                        dropzone.style.padding = '0.5rem';
                     } else {
                         const draggableElement = document.getElementById(id);
                         if (event.getModifierState("Shift")) {
@@ -247,6 +250,7 @@
         <button id="2n" draggable="true">2n</button>
         <button id="4n" draggable="true">4n</button>
         <button id="8n" draggable="true">8n</button>
+        <button id="xvin" draggable="true">16n</button>
     </div>
     <p id="pressedNotesParagraph"></p>
     <div class="notePlaylist"></div>
@@ -324,6 +328,17 @@
                 };
 
         eigthn.ondragend = (even) => {
+            event.currentTarget.classList.remove("dragging");
+        }
+
+        var sixteenn = document.querySelector('#xvin');
+        sixteenn.ondragstart = (event) => {
+                    event.dataTransfer.clearData();
+                    event.dataTransfer.setData('text/plain', event.target.id);
+                    event.currentTarget.classList.add("dragging");
+                };
+
+        sixteenn.ondragend = (even) => {
             event.currentTarget.classList.remove("dragging");
         }
 
