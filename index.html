@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Circle of Chords</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
-    <!-- <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script> -->
     <script src="tone.js"></script>
-    <script src="https://unpkg.com/@tonejs/midi"></script>
-    <script src=" https://cdn.jsdelivr.net/npm/mobile-drag-drop@3.0.0-rc.0/index.min.js "></script>
-<link href=" https://cdn.jsdelivr.net/npm/mobile-drag-drop@3.0.0-rc.0/default.min.css " rel="stylesheet">
+    <script src="midiwriter.js"></script>
     
 </head>
 
@@ -249,6 +246,7 @@
             duration: 0.2
             })
         }
+        const midiData = fs.readFileSync("test.mid")
         // write the output
         fs.writeFileSync("output.mid", new Buffer(midi.toArray()))
     }
@@ -329,7 +327,8 @@
         }; counter = 0;">⏸️</button>
         <button onclick="Tone.Transport.stop(); document.querySelector('.notePlaylist').innerHTML = '';">❌</button>
         <button onclick="createMidi()">⬇️</button>
-        <button onclick="createMidi()">⬆️</button>
+        <button onclick="syncSequence()">↕️</button>
+        <button onclick="uploadSequence()">⬆️</button>
     </div>
     <div id="durationControls" class="controls">
         <div>Duration controls</div>
