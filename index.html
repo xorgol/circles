@@ -117,9 +117,30 @@
                 newNote.ondrop = (event) => {
                     const id = event.dataTransfer.getData('text');
                     console.log(id);
-                    const draggableElement = document.getElementById(id);
                     const dropzone = event.target;
-                    dropzone.after(draggableElement);
+                    if(id==null){
+
+                    } else if (id== '1n') {
+                        dropzone.duration = '1n';
+                    } else if (id=='2n') {
+                        dropzone.duration = '2n';
+                    } else if (id=='4n') {
+                        dropzone.duration = '4n';
+                    } else if (id=='8n') {
+                        dropzone.duration = '8n';
+                    } else {
+                        const draggableElement = document.getElementById(id);
+                        if (event.getModifierState("Shift")) {
+                            event.preventDefault(); // consume the key event
+                            draggableElement.duration = '4n';
+                            dropzone.appendChild(draggableElement);
+                        } else {
+                            dropzone.before(draggableElement);
+                        }
+                    
+
+                    }
+                    
                     
                 }
                 newNote.innerHTML = notesToPlay[0].toNote();
