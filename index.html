@@ -13,13 +13,6 @@
     const synth = new Tone.PolySynth().toDestination();
     var notes = {};
 
-    // const sequence = new Sequence({
-    //     subdivision: '8n',
-    //     loop: false,
-    //     events: notes,
-    //     callback: (time, note) => synth.triggerAttackRelease(note.note, note.duration, time),
-    // })
-
     //attach a click listener to a play button
     var buttons = document.querySelectorAll('button')
     for(let i = 0; i<buttons.length; i++) {
@@ -114,19 +107,6 @@
             
                 }
 
-                console.log("Notes to play: ");
-                var triad = [];
-                for (let i=0; i<notesToPlay.length; i++) {
-                    triad.push(notesToPlay[i].toMidi());
-                    
-                    console.log(notesToPlay[i].toNote())
-
-                }
-                console.log(triad);
-                //notes.append({note: triad, duration: '8n'});
-
-                console.log("Notes: " + notes);
-
                 var newNote = document.createElement('div');
                 newNote.classList.add("note");
                 newNote.setAttribute("mode", mode);
@@ -185,9 +165,6 @@
             <option value="freq">Frequency</option>
             <option value="midi">Midi</option>
             </select>
-            <!-- <br>
-            <label for="bpm">BPM:</label>
-            <input name="bpm" id="bpm" type="number" min="30" max="300" value="60" placeholder="60"> -->
         </div>
 
     <div class='circle-container'>
@@ -219,7 +196,7 @@
         <button onclick="Tone.Transport.start()">▶️</button>
         <!-- <button onclick="playSequence()">▶️</button> -->
         <button onclick="Tone.Transport.stop()">⏸️</button>
-        <button onclick="document.querySelector('.notePlaylist').innerHTML = '';">❌</button>
+        <button onclick="Tone.Transport.stop(); document.querySelector('.notePlaylist').innerHTML = '';">❌</button>
         <button>⬇️</button>
     </div>
     <div id="durationControls" class="controls">
