@@ -204,20 +204,14 @@
 
     function createMidi() {
         // create a new midi file
-        var midi = new Midi()
         // add a track
-        var track1 = midi.addTrack();
-        var track2 = midi.addTrack();
-        var track3 = midi.addTrack();
-
-        //Tone.Transport.stop()
-        var midiCounter = 0;
+        var track = new MidiWriter.Track();
         
         for (let midiCounter = 0; midiCounter < document.querySelectorAll('.note').length; midiCounter++) {
             // Set frequency for chord base
             let tf = new Tone.Frequency(document.querySelectorAll('.note')[midiCounter].innerHTML);
             let mode = document.querySelectorAll('.note')[midiCounter].getAttribute('mode');
-            let duration = document.querySelectorAll('.note')[midiCounter].getAttribute('duration');
+            let duration = document.querySelectorAll('.note')[midiCounter].getAttribute('duration')[0];
             let mf, hf;
 
             if(mode=='minor') {
@@ -226,29 +220,24 @@
                 mf = tf.transpose(4);
             }
             hf = tf.transpose(7);
-            
-            var midiDuration = Number(duration.split('n'));
-            console.log("midiDuration = " + midiDuration);
+            console.log("midiDuration = " + duration);
+            console.log("midiCounter = " + midiCounter);
 
-            track1.addNote({
-            midi : tf.toMidi(),
-            time : 0,
-            duration: 0.2
-            })
-            track2.addNote({
-            midi : mf.toMidi(),
-            time : 0,
-            duration: 0.2
-            })
-            track3.addNote({
-            midi : hf.toMidi(),
-            time : 0,
-            duration: 0.2
-            })
+            track.addEvent(new MidiWriter.NoteEvent({ pitch: [tf.toNote(), mf.toNote(), hf.toNote()], duration: duration }));
+
         }
-        const midiData = fs.readFileSync("test.mid")
-        // write the output
-        fs.writeFileSync("output.mid", new Buffer(midi.toArray()))
+        const write = new MidiWriter.Writer(track);
+
+        // Save the MIDI file
+        const fileName = 'sequence.mid';
+
+        console.log(track);
+        var fileLink = document.querySelector('#dLink');
+        fileLink.setAttribute('href', write.dataUri())
+        fileLink.innerHTML = "Download MIDI file";
+        document.querySelector('#playbackControls').appendChild(fileLink);
+
+        console.log(`MIDI file saved as ${fileName}`);
     }
     
 
@@ -325,10 +314,11 @@
         <button onclick="Tone.Transport.stop(); for (let i=0; i<document.querySelectorAll('.note').length; i++) {
             document.querySelectorAll('.note')[i].classList.remove('playing');
         }; counter = 0;">⏸️</button>
-        <button onclick="Tone.Transport.stop(); document.querySelector('.notePlaylist').innerHTML = '';">❌</button>
+        <button onclick="Tone.Transport.stop(); document.querySelector('.notePlaylist').innerHTML = ''; document.querySelector('#dLink').innerHTML = '';">❌</button>
         <button onclick="createMidi()">⬇️</button>
         <button onclick="syncSequence()">↕️</button>
         <button onclick="uploadSequence()">⬆️</button>
+        <a id="dLink"></a>
     </div>
     <div id="durationControls" class="controls">
         <div>Duration controls</div>
