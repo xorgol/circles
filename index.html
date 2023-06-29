@@ -7,40 +7,11 @@
     <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="tone.js"></script>
     <script src="midiwriter.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase.js"></script>
     
 </head>
 
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
 
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-    const firebaseConfig = {  
-      apiKey: "AIzaSyAy4bj5oUruu81i6SUgvo17oZyLBBC9xyE",
-      authDomain: "demona-c29a9.firebaseapp.com",
-      projectId: "demona-c29a9",
-      storageBucket: "demona-c29a9.appspot.com",
-      messagingSenderId: "236218329665",
-      appId: "1:236218329665:web:fc5263caf5bbdec5b8b4c0",
-      measurementId: "G-7ZM3EKPHF3"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-
-//     var database = database();
-
-//     database.ref('/').once('value', function(snapshot){
-//     console.log(snapshot.val());
-// });
-</script>
 <script>
     //create a synth and connect it to the main output
     const synth = new Tone.PolySynth().toDestination();
@@ -242,7 +213,8 @@
     
 
 </script>
-<body>
+<body onload="initializeFirebase()">
+    <script>https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js</script>
     <h1>Circle of Chords</h1>
         <div id="options">
             <label for="startingNote">Choose starting note:</label>  
@@ -316,8 +288,8 @@
         }; counter = 0;">⏸️</button>
         <button onclick="Tone.Transport.stop(); document.querySelector('.notePlaylist').innerHTML = ''; document.querySelector('#dLink').innerHTML = '';">❌</button>
         <button onclick="createMidi()">⬇️</button>
-        <button onclick="syncSequence()">↕️</button>
-        <button onclick="uploadSequence()">⬆️</button>
+        <button onclick="pullNotes()">↕️</button>
+        <button onclick="pushNotes()">⬆️</button>
         <a id="dLink"></a>
     </div>
     <div id="durationControls" class="controls">
@@ -423,6 +395,140 @@
             event.currentTarget.classList.remove("dragging");
         }
 
+
+        var database;
+        var snapHolder;
+
+    function initializeFirebase() {
+        const firebaseConfig = {  
+            apiKey: "AIzaSyAy4bj5oUruu81i6SUgvo17oZyLBBC9xyE",
+            authDomain: "demona-c29a9.firebaseapp.com",
+            projectId: "demona-c29a9",
+            storageBucket: "demona-c29a9.appspot.com",
+            messagingSenderId: "236218329665",
+            appId: "1:236218329665:web:fc5263caf5bbdec5b8b4c0",
+            measurementId: "G-7ZM3EKPHF3",
+            databaseURL: "https://demona-c29a9-default-rtdb.europe-west1.firebasedatabase.app"
+            };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Realtime Database and get a reference to the service
+        database = firebase.database();
+
+        database.ref('/').once('value', function(snapshot){
+            snapHolder = snapshot.val();
+            console.log(snapHolder);
+        });
+    }
+
+    function pushNotes(){
+        // Clear previous notes
+        database.ref('/').remove();
+
+        var noteButtons = document.querySelectorAll(".note");
+        for(let i=0; i<noteButtons.length; i++) {
+            var dataRef = database.ref('/').push();//Generates a new child location with a randomly generated id.
+            dataRef.set({
+                value: noteButtons[i].innerHTML,
+                mode: noteButtons[i].getAttribute('mode'),
+                duration: noteButtons[i].getAttribute('duration')
+            });
+
+        }
+        
+    }
+
+    function pullNotes() {
+        document.querySelector('.notePlaylist').innerHTML = '';
+
+        database.ref('/').once('value', function(snapshot){
+            snapHolder = snapshot.val();
+            console.log(snapHolder);
+            snapshot.forEach((childSnapshot) => {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                console.log(childKey);
+                console.log(childData);
+
+                var newNote = document.createElement('div');
+                newNote.id = Date.now();
+                newNote.classList.add("note");
+                newNote.setAttribute("mode", childData.mode);
+                if(childData.mode=='minor') {
+                    newNote.classList.add('minor');
+                }
+                newNote.setAttribute("duration", childData.duration);
+                newNote.setAttribute("draggable", "true");
+                newNote.ondragover = (event) => {
+                    event.preventDefault();
+                }
+                newNote.ondragstart = (event) => {
+                    event.dataTransfer.clearData();
+                    event.dataTransfer.setData('text/plain', event.target.id);
+                    event.currentTarget.classList.add("dragging");
+                };
+
+                newNote.ondragend = (event) => {
+                    event.currentTarget.classList.remove("dragging");
+                }
+                newNote.ondrop = (event) => {
+                    const id = event.dataTransfer.getData('text');
+                    console.log(id);
+                    const dropzone = event.target;
+                    if(id==null){
+
+                    } else if (id== '1n') {
+                        dropzone.setAttribute('duration', '1n');
+                        dropzone.style.padding = '8em';
+                    } else if (id=='2n') {
+                        dropzone.setAttribute('duration', '2n');
+                        dropzone.style.padding = '4rem';
+                    } else if (id=='4n') {
+                        dropzone.setAttribute('duration', '4n');
+                        dropzone.style.padding = '2rem';
+                    } else if (id=='8n') {
+                        dropzone.setAttribute('duration', '8n');
+                        dropzone.style.padding = '1rem';
+                    } else if (id=='xvin') {
+                        dropzone.setAttribute('duration', '16n');
+                        dropzone.style.padding = '0.5rem';
+                    } else {
+                        const draggableElement = document.getElementById(id);
+                        if (event.getModifierState("Shift")) {
+                            event.preventDefault(); // consume the key event
+                            var prevDuration = Tone.Time(draggableElement.getAttribute('duration'));
+                            prevDuration = prevDuration.toNotation().split('n');
+                            prevDuration[0]*=2;
+                            prevDuration= ""+prevDuration[0]+"n";
+                            //console.log(prevDuration);
+                            
+                            draggableElement.setAttribute('duration', prevDuration);
+                            dropzone.appendChild(draggableElement);
+                        } else {
+                            dropzone.before(draggableElement);
+                        }
+                    
+
+                    }
+                    
+                    
+                }
+                newNote.innerHTML = childData.value;
+                newNote.onclick = function () {this.remove()};
+                document.querySelector('.notePlaylist').appendChild(newNote);
+        });
+
+        
+  });
+
+
+        
+
+    }
+  
+    
 
 
     </script>
